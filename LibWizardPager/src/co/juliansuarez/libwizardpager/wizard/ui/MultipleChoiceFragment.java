@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
+import co.juliansuarez.libwizardpager.wizard.model.Choice;
 import co.juliansuarez.libwizardpager.wizard.model.MultipleFixedChoicePage;
 import co.juliansuarez.libwizardpager.wizard.model.Page;
 
@@ -128,12 +129,17 @@ public class MultipleChoiceFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         SparseBooleanArray checkedPositions = getListView().getCheckedItemPositions();
         ArrayList<String> selections = new ArrayList<String>();
+        ArrayList<Choice> choices = new ArrayList<Choice>();
         for (int i = 0; i < checkedPositions.size(); i++) {
             if (checkedPositions.valueAt(i)) {
-                selections.add(getListAdapter().getItem(checkedPositions.keyAt(i)).toString());
+            	String item = getListAdapter().getItem(checkedPositions.keyAt(i)).toString();
+                selections.add(item);
+                
+                Choice c = mPage.getChoice(item);
+                choices.add(c);
             }
         }
-
+        mPage.getData().putParcelableArrayList(Page.CHOICE_DATA_KEY, choices);
         mPage.getData().putStringArrayList(Page.SIMPLE_DATA_KEY, selections);
         mPage.notifyDataChanged();
     }

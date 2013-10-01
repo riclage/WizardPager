@@ -16,10 +16,10 @@
 
 package co.juliansuarez.libwizardpager.wizard.model;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
-import java.util.ArrayList;
 
 /**
  * Represents a single page in the wizard.
@@ -29,6 +29,8 @@ public abstract class Page implements PageTreeNode {
      * The key into {@link #getData()} used for wizards with simple (single) values.
      */
     public static final String SIMPLE_DATA_KEY = "_";
+    
+    public static final String CHOICE_DATA_KEY = "choice";
 
     protected ModelCallbacks mCallbacks;
 
@@ -107,4 +109,9 @@ public abstract class Page implements PageTreeNode {
         mRequired = required;
         return this;
     }
+
+	public Choice getChoice(String selectedItem) {
+		return null;
+		
+	}
 }

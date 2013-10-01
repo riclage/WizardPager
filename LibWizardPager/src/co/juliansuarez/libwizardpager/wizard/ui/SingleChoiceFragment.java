@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
+import co.juliansuarez.libwizardpager.wizard.model.Choice;
 import co.juliansuarez.libwizardpager.wizard.model.Page;
 import co.juliansuarez.libwizardpager.wizard.model.SingleFixedChoicePage;
 
@@ -117,8 +118,13 @@ public class SingleChoiceFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        mPage.getData().putString(Page.SIMPLE_DATA_KEY,
-                getListAdapter().getItem(position).toString());
+        String selectedItem = getListAdapter().getItem(position).toString();
+    	mPage.getData().putString(Page.SIMPLE_DATA_KEY,
+    			selectedItem);
+        
+        Choice c = mPage.getChoice(selectedItem);
+        if (c != null) mPage.getData().putParcelable(Page.CHOICE_DATA_KEY, c);
+        
         mPage.notifyDataChanged();
     }
 }

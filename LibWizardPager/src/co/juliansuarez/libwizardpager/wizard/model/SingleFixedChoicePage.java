@@ -28,6 +28,7 @@ import co.juliansuarez.libwizardpager.wizard.ui.SingleChoiceFragment;
  */
 public class SingleFixedChoicePage extends Page {
     protected ArrayList<String> mChoices = new ArrayList<String>();
+    protected ArrayList<Choice> aChoices = new ArrayList<Choice>();
 
     public SingleFixedChoicePage(ModelCallbacks callbacks, String title) {
         super(callbacks, title);
@@ -48,7 +49,7 @@ public class SingleFixedChoicePage extends Page {
 
     @Override
     public void getReviewItems(ArrayList<ReviewItem> dest) {
-        dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY), getKey()));
+        dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY), (Choice)mData.getParcelable(CHOICE_DATA_KEY), getKey()));
     }
 
     @Override
@@ -64,5 +65,33 @@ public class SingleFixedChoicePage extends Page {
     public SingleFixedChoicePage setValue(String value) {
         mData.putString(SIMPLE_DATA_KEY, value);
         return this;
+    }
+    
+    public SingleFixedChoicePage setChoices(Choice... choices) {    	
+        String[] sChoices = new String[choices.length];
+        int i = 0;
+        for (Choice c : choices) {
+        	sChoices[i] = c.getTitle();
+        	i++;
+        }
+    	setChoices(sChoices);
+    	aChoices.addAll(Arrays.asList(choices));
+        return this;
+    }    
+    
+    public SingleFixedChoicePage setValue(Choice value) {
+    	setValue(value.getTitle());
+        mData.putParcelable(CHOICE_DATA_KEY, value);
+        return this;
+    }   
+    
+    @Override
+    public Choice getChoice(String selectedItem) {
+    	for (Choice c : aChoices) {
+    		if (c.getTitle().matches(selectedItem)) {
+    			return c;
+    		}
+    	}
+    	return super.getChoice(selectedItem);
     }
 }
