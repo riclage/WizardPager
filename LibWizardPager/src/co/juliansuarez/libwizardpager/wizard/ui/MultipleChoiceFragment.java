@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
@@ -89,6 +90,37 @@ public class MultipleChoiceFragment extends ListFragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
+            	//Set mandatory items to selected and disabled
+            	Set<String> mandatorySet = new HashSet<String>();
+            	Page previousPage = mPage.getPreviousPage();
+            	if (previousPage != null) {
+            		ArrayList<Choice> selectedItems = previousPage.getData().getParcelableArrayList(
+                            Page.CHOICE_DATA_KEY);
+            		
+            		if (selectedItems == null || selectedItems.size() == 0) {
+                        return;
+                    }           		
+            		
+            		for (Choice c : selectedItems) {
+            			if (c.getMandatoryNextPageChoiceString() != null) {
+            				mandatorySet.add(c.getMandatoryNextPageChoiceString());
+            			}
+            		}
+            		
+            		for (int i = 0; i < mChoices.size(); i++) {
+            			CheckBox c = (CheckBox)listView.getItemAtPosition(i);
+                        if (mandatorySet.contains(mChoices.get(i))) {
+                            listView.setItemChecked(i, true);
+                            c.setClickable(false);
+                        } else {
+                        	c.setClickable(true);
+                        }
+                    }
+            		
+            	}
+            	
+            	
+            	//Original code to set currently selected items
                 ArrayList<String> selectedItems = mPage.getData().getStringArrayList(
                         Page.SIMPLE_DATA_KEY);
                 if (selectedItems == null || selectedItems.size() == 0) {

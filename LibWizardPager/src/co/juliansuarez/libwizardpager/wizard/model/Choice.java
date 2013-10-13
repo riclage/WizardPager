@@ -7,6 +7,8 @@ public final class Choice implements Parcelable {
 	private String sTitle;
 	private int iId;
 	
+	private String mMandatoryNextPageChoiceString;
+	
 	public Choice (int id, String title) {
 		this.sTitle = title;
 		this.iId = id;
@@ -19,6 +21,14 @@ public final class Choice implements Parcelable {
 	public int getId() {
 		return iId;
 	}
+	
+	public void setMandatoryNextPageChoiceString(String choiceString) {
+		this.mMandatoryNextPageChoiceString = choiceString;
+	}
+	
+	public String getMandatoryNextPageChoiceString() {
+		return this.mMandatoryNextPageChoiceString;
+	}
 
 
 	@Override
@@ -30,7 +40,8 @@ public final class Choice implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel pc, int flags) {
 		pc.writeInt(iId);
-		pc.writeString(sTitle);		
+		pc.writeString(mMandatoryNextPageChoiceString);
+		pc.writeString(sTitle);
 	}
 	
 	/** Static field used to regenerate object, individually or as arrays */
@@ -46,6 +57,7 @@ public final class Choice implements Parcelable {
 	/** Reads back the fields IN THE ORDER they were written in writeToParcel(..) */
 	public Choice(Parcel pc) {
 		this.iId = pc.readInt();
+		this.mMandatoryNextPageChoiceString = pc.readString();
 		this.sTitle = pc.readString();
 	}
 	

@@ -42,6 +42,8 @@ public abstract class Page implements PageTreeNode {
     protected String mDescription;
     protected boolean mRequired = false;
     protected String mParentKey;
+    
+    protected Page previousPage;
 
     protected Page(ModelCallbacks callbacks, String title) {
         mCallbacks = callbacks;
@@ -72,6 +74,14 @@ public abstract class Page implements PageTreeNode {
 
     void setParentKey(String parentKey) {
         mParentKey = parentKey;
+    }
+    
+    public void setPreviousPage(Page p) {
+    	this.previousPage = p;
+    }
+    
+    public Page getPreviousPage() {
+    	return this.previousPage;
     }
 
     @Override
