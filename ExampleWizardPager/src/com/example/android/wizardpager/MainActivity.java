@@ -20,6 +20,7 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -135,6 +136,10 @@ public class MainActivity extends FragmentActivity implements
 
 		onPageTreeChanged();
 		updateBottomBar();
+		
+//		Intent testActivity = new Intent(this, TestActivity.class);
+//		startActivity(testActivity);
+		
 	}
 
 	@Override

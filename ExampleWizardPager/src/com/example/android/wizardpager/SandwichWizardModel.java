@@ -25,6 +25,7 @@ import co.juliansuarez.libwizardpager.wizard.model.NumberPage;
 import co.juliansuarez.libwizardpager.wizard.model.PageList;
 import co.juliansuarez.libwizardpager.wizard.model.SingleFixedChoicePage;
 import co.juliansuarez.libwizardpager.wizard.model.TextPage;
+import co.juliansuarez.libwizardpager.wizard.model.TimePage;
 
 public class SandwichWizardModel extends AbstractWizardModel {
 	public SandwichWizardModel(Context context) {
@@ -35,6 +36,7 @@ public class SandwichWizardModel extends AbstractWizardModel {
 	protected PageList onNewRootPageList() {
 		return new PageList(new BranchPage(this, "Order type").addBranch(
 				"Sandwich",
+				new TimePage(this, "Time options"),
 				new SingleFixedChoicePage(this, "Bread").setChoices("White",
 						"Wheat", "Rye", "Pretzel", "Ciabatta")
 						.setRequired(true),

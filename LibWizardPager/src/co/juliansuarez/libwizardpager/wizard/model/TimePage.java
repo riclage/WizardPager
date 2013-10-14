@@ -28,6 +28,7 @@ public class TimePage extends Page {
 		if (numRepeat != null) {
 			dest.add(new ReviewItem("Repeat every", numRepeat + " " + recurrenceType, getKey(), 1));
 		}		
+
 	}
 
 	@Override
