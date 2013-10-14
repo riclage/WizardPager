@@ -5,5 +5,16 @@
     <string name="label_your_email">Email</string>
     <string name="hint_your_email">Optional</string>
     <string name="review">Review</string>
+    
+    <string-array name="time_recurrence">
+        <item>Hourly</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
+    
+    <string name="text_repeat">Repeat</string>
+    <string name="text_repeat_every">Repeat every</string>
 
 </resources>
