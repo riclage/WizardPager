@@ -7,11 +7,15 @@ public final class Choice implements Parcelable {
 	private String sTitle;
 	private int iId;
 	
+	//Used to determine if the next page of the wizard should be skipped if this choice is selected
+	private Boolean mSkipNextPage; 
+	
 	private String mMandatoryNextPageChoiceString;
 	
 	public Choice (int id, String title) {
 		this.sTitle = title;
 		this.iId = id;
+		this.mSkipNextPage = false;
 	}
 	
 	public String getTitle() {
@@ -30,6 +34,13 @@ public final class Choice implements Parcelable {
 		return this.mMandatoryNextPageChoiceString;
 	}
 
+	public void setSkipNextPage(Boolean skipNextPage) {
+		this.mSkipNextPage = skipNextPage;
+	}
+	
+	public Boolean skipNextPage() {
+		return mSkipNextPage;
+	}
 
 	@Override
 	public int describeContents() {
@@ -59,7 +70,5 @@ public final class Choice implements Parcelable {
 		this.iId = pc.readInt();
 		this.mMandatoryNextPageChoiceString = pc.readString();
 		this.sTitle = pc.readString();
-	}
-	
-	
+	}	
 }

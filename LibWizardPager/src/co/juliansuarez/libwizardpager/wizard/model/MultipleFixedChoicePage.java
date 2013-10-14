@@ -56,4 +56,11 @@ public class MultipleFixedChoicePage extends SingleFixedChoicePage {
         ArrayList<String> selections = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
         return selections != null && selections.size() > 0;
     }
+    
+    @Override
+    public Boolean skipNextPage() {
+    	Boolean skipNext = this.getData().getBoolean(Page.SKIP_NEXT_PAGE);
+    	if (skipNext == null) return false;
+    	return skipNext;
+    }
 }

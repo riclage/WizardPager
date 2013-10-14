@@ -22,24 +22,27 @@ public class TimePage extends Page {
 	@Override
 	public void getReviewItems(ArrayList<ReviewItem> dest) {
 		String recurrenceType = mData.getString(TIME_TYPE_REPEAT_DATA_KEY);
-		dest.add(new ReviewItem("Recurrence type", recurrenceType, getKey(), -1));
-        
-		int numRepeat = Integer.valueOf(mData.getString(TIME_NUM_REPEAT_DATA_KEY));
-		String numRepeatText;
-		if (numRepeat == 1) {
-			
-		}
-		dest.add(new ReviewItem("Repeat every", mData.getString(TIME_NUM_REPEAT_DATA_KEY), getKey(), -1));
+		String numRepeat = mData.getString(TIME_NUM_REPEAT_DATA_KEY);
+		
+		//dest.add(new ReviewItem("Recurrence type", recurrenceType, getKey(), -1));
+		if (numRepeat != null) {
+			dest.add(new ReviewItem("Repeat every", numRepeat + " " + recurrenceType, getKey(), 1));
+		}		
 	}
 
 	@Override
 	public boolean isCompleted() {
-		return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
+		return !TextUtils.isEmpty(mData.getString(TIME_NUM_REPEAT_DATA_KEY));
 	}
 
 	public TimePage setValue(String value) {
 		mData.putString(SIMPLE_DATA_KEY, value);
 		return this;
+	}
+
+	@Override
+	public Boolean skipNextPage() {
+		return false;
 	}
 	
 }

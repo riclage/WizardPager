@@ -140,6 +140,8 @@ public class MultipleChoiceFragment extends ListFragment {
 				.getCheckedItemPositions();
 		ArrayList<String> selections = new ArrayList<String>();
 		ArrayList<Choice> choices = new ArrayList<Choice>();
+		
+		Boolean skipNextPage = false;
 		for (int i = 0; i < checkedPositions.size(); i++) {
 			if (checkedPositions.valueAt(i)) {
 				String item = getListAdapter().getItem(
@@ -148,8 +150,13 @@ public class MultipleChoiceFragment extends ListFragment {
 
 				Choice c = mPage.getChoice(item);
 				choices.add(c);
+				
+				if (c.skipNextPage()) {
+					skipNextPage = true;
+				}
 			}
 		}
+		mPage.getData().putBoolean(Page.SKIP_NEXT_PAGE, skipNextPage);
 		mPage.getData().putParcelableArrayList(Page.CHOICE_DATA_KEY, choices);
 		mPage.getData().putStringArrayList(Page.SIMPLE_DATA_KEY, selections);
 		mPage.notifyDataChanged();

@@ -32,6 +32,8 @@ public abstract class Page implements PageTreeNode {
     
     public static final String CHOICE_DATA_KEY = "choice";
 
+	public static final String SKIP_NEXT_PAGE = "skip";
+
     protected ModelCallbacks mCallbacks;
 
     /**
@@ -101,6 +103,8 @@ public abstract class Page implements PageTreeNode {
     }
 
     public abstract void getReviewItems(ArrayList<ReviewItem> dest);
+    
+    public abstract Boolean skipNextPage();
 
     public boolean isCompleted() {
         return true;

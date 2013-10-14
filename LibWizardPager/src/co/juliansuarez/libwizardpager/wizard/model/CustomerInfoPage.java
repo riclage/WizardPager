@@ -48,4 +48,9 @@ public class CustomerInfoPage extends Page {
     public boolean isCompleted() {
         return !TextUtils.isEmpty(mData.getString(NAME_DATA_KEY));
     }
+
+	@Override
+	public Boolean skipNextPage() {
+		return false;
+	}
 }

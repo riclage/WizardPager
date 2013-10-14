@@ -33,4 +33,9 @@ public class TextPage extends Page {
 		mData.putString(SIMPLE_DATA_KEY, value);
 		return this;
 	}
+
+	@Override
+	public Boolean skipNextPage() {
+		return false;
+	}
 }

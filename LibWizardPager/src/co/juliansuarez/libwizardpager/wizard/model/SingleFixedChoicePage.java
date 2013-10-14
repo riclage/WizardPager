@@ -94,4 +94,9 @@ public class SingleFixedChoicePage extends Page {
     	}
     	return super.getChoice(selectedItem);
     }
+
+	@Override
+	public Boolean skipNextPage() {
+		return false;
+	}
 }
