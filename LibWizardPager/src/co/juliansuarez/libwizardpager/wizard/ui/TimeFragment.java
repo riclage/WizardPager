@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
 import co.juliansuarez.libwizardpager.wizard.model.Page;
+import co.juliansuarez.libwizardpager.wizard.model.TimePage;
 
 public class TimeFragment extends Fragment {
 	
@@ -59,8 +60,7 @@ public class TimeFragment extends Fragment {
 				.getTitle());
 
 		mEditTextNumRepeat = (EditText) rootView.findViewById(R.id.editTextNumRepeat);
-		TimePreferences t = mPage.getData().getParcelable(Page.SIMPLE_DATA_KEY);
-		mEditTextNumRepeat.setText(t.getNumRepeat());
+		mEditTextNumRepeat.setText(mPage.getData().getString(TimePage.TIME_NUM_REPEAT_DATA_KEY));
 		
 		mSpinnerTypeRepeat = (Spinner)rootView.findViewById(R.id.spinnerTypeRepeat);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
@@ -68,7 +68,7 @@ public class TimeFragment extends Fragment {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mSpinnerTypeRepeat.setAdapter(adapter);
 		
-		int index = adapter.getPosition(t.getTypeRepeat());
+		int index = adapter.getPosition(mPage.getData().getString(TimePage.TIME_TYPE_REPEAT_DATA_KEY));
 		mSpinnerTypeRepeat.setSelection(index);
 		
 		return rootView;
@@ -110,7 +110,8 @@ public class TimeFragment extends Fragment {
 
 			@Override
 			public void afterTextChanged(Editable editable) {
-				updatePreferences((editable != null) ? editable.toString() : null, null);
+				mPage.getData().putString(TimePage.TIME_NUM_REPEAT_DATA_KEY,
+						(editable != null) ? editable.toString() : null);
 				mPage.notifyDataChanged();
 			}
 
@@ -122,7 +123,8 @@ public class TimeFragment extends Fragment {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				String selectedItem = (String)parent.getItemAtPosition(position);
-				updatePreferences(null, (selectedItem != null) ? selectedItem : null);
+				mPage.getData().putString(TimePage.TIME_TYPE_REPEAT_DATA_KEY,
+						(selectedItem != null) ? selectedItem : null);
 				mPage.notifyDataChanged();
 				
 			}
@@ -149,57 +151,5 @@ public class TimeFragment extends Fragment {
 				imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 			}
 		}
-	}
-	
-	private void updatePreferences(String numRepeat, String typeRepeat) {
-		TimePreferences t = mPage.getData().getParcelable(Page.SIMPLE_DATA_KEY);
-		if (t == null) {
-			t = new TimePreferences(numRepeat, typeRepeat);
-		} else {
-			if (numRepeat != null) t.setNumRepeat(numRepeat);
-			if (typeRepeat != null) t.setTypeRepeat(typeRepeat);
-		}
-		mPage.getData().putParcelable(Page.SIMPLE_DATA_KEY, t);
-	}
-	
-}
-
-class TimePreferences implements Parcelable {
-
-	private String mNumRepeat;
-	private String mTypeRepeat;
-	
-	public TimePreferences(String numRepeat, String typeRepeat) {
-		this.mNumRepeat = numRepeat;
-		this.mTypeRepeat = typeRepeat;
-	}
-	
-	public String getNumRepeat() {
-		return mNumRepeat;
-	}
-	
-	public String getTypeRepeat() {
-		return mTypeRepeat;
-	}
-	
-	public void setNumRepeat(String numRepeat) {
-		mNumRepeat = numRepeat;
-	}
-	
-	public void setTypeRepeat(String typeRepeat) {
-		mTypeRepeat = typeRepeat;
-	}
-	
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+	}	
 }
