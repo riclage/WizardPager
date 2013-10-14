@@ -3,10 +3,10 @@ package co.juliansuarez.libwizardpager.wizard.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,10 +61,11 @@ public class TimeFragment extends Fragment {
 
 		mEditTextNumRepeat = (EditText) rootView.findViewById(R.id.editTextNumRepeat);
 		mEditTextNumRepeat.setText(mPage.getData().getString(TimePage.TIME_NUM_REPEAT_DATA_KEY));
+		mEditTextNumRepeat.setFilters(new InputFilter[]{new InputFilterMinMax("1", "50")});
 		
 		mSpinnerTypeRepeat = (Spinner)rootView.findViewById(R.id.spinnerTypeRepeat);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(),
-				R.array.time_recurrence, android.R.layout.simple_spinner_item);
+				R.array.time_values_plural, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mSpinnerTypeRepeat.setAdapter(adapter);
 		
@@ -125,6 +126,7 @@ public class TimeFragment extends Fragment {
 				String selectedItem = (String)parent.getItemAtPosition(position);
 				mPage.getData().putString(TimePage.TIME_TYPE_REPEAT_DATA_KEY,
 						(selectedItem != null) ? selectedItem : null);
+				
 				mPage.notifyDataChanged();
 				
 			}

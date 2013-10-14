@@ -21,8 +21,14 @@ public class TimePage extends Page {
 
 	@Override
 	public void getReviewItems(ArrayList<ReviewItem> dest) {
-		dest.add(new ReviewItem("Recurrence type", mData.getString(TIME_TYPE_REPEAT_DATA_KEY), getKey(), -1));
-        //TODO: show review with the type of recurrence at the end. E.g., if hourly, show "1 hour", etc.
+		String recurrenceType = mData.getString(TIME_TYPE_REPEAT_DATA_KEY);
+		dest.add(new ReviewItem("Recurrence type", recurrenceType, getKey(), -1));
+        
+		int numRepeat = Integer.valueOf(mData.getString(TIME_NUM_REPEAT_DATA_KEY));
+		String numRepeatText;
+		if (numRepeat == 1) {
+			
+		}
 		dest.add(new ReviewItem("Repeat every", mData.getString(TIME_NUM_REPEAT_DATA_KEY), getKey(), -1));
 	}
 
