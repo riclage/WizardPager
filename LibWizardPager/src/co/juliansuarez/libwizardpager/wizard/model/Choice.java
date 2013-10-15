@@ -71,4 +71,13 @@ public final class Choice implements Parcelable {
 		this.mMandatoryNextPageChoiceString = pc.readString();
 		this.sTitle = pc.readString();
 	}	
+	
+	public static Choice[] convertToChoices(IChoice[] choices) {
+		Choice[] aChoices = new Choice[choices.length];
+		int i = 0;
+		for (IChoice c : choices) {			
+			aChoices[i++] = new Choice(c.getId(), c.toString());
+		}
+		return aChoices;
+	}
 }
