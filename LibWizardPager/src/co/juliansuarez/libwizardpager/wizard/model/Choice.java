@@ -76,7 +76,7 @@ public final class Choice implements Parcelable {
 		Choice[] aChoices = new Choice[choices.length];
 		int i = 0;
 		for (IChoice c : choices) {			
-			aChoices[i++] = new Choice(c.getId(), c.toString());
+			aChoices[i++] = new Choice(c.getId(), c.getTitle());
 		}
 		return aChoices;
 	}

@@ -32,6 +32,7 @@ public class BranchPage extends SingleFixedChoicePage {
 
     public BranchPage(ModelCallbacks callbacks, String title) {
         super(callbacks, title);
+        aChoices = new ArrayList<Choice>();
     }
 
     @Override
@@ -61,12 +62,13 @@ public class BranchPage extends SingleFixedChoicePage {
         }
     }
 
-    public BranchPage addBranch(String choice, Page... childPages) {
+    public BranchPage addBranch(Choice choice, Page... childPages) {
         PageList childPageList = new PageList(childPages);
         for (Page page : childPageList) {
-            page.setParentKey(choice);
+            page.setParentKey(choice.getTitle());
         }
-        mBranches.add(new Branch(choice, childPageList));
+        mBranches.add(new Branch(choice.getTitle(), childPageList));
+        aChoices.add(choice);
         return this;
     }
 
