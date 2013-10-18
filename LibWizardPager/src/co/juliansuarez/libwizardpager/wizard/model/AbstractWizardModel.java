@@ -33,6 +33,8 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
 
     private List<ModelCallbacks> mListeners = new ArrayList<ModelCallbacks>();
     private PageList mRootPageList;
+    
+    private int mLastStepButtonResource;
 
     public AbstractWizardModel(Context context) {
     	mContext = context;
@@ -43,6 +45,14 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
      * Override this to define a new wizard model.
      */
     protected abstract PageList onNewRootPageList();
+    
+    protected void setLastStepButtonResource(int resource) {
+    	mLastStepButtonResource = resource;
+    }
+    
+    public int getLastStepButtonResource() {
+    	return mLastStepButtonResource;
+    }
 
     @Override
     public void onPageDataChanged(Page page) {

@@ -24,95 +24,103 @@ import android.text.TextUtils;
 import co.juliansuarez.libwizardpager.wizard.ui.SingleChoiceFragment;
 
 /**
- * A page representing a branching point in the wizard. Depending on which choice is selected, the
- * next set of steps in the wizard may change.
+ * A page representing a branching point in the wizard. Depending on which
+ * choice is selected, the next set of steps in the wizard may change.
  */
 public class BranchPage extends SingleFixedChoicePage {
-    private List<Branch> mBranches = new ArrayList<Branch>();
+	private List<Branch> mBranches = new ArrayList<Branch>();
 
-    public BranchPage(ModelCallbacks callbacks, String title) {
-        super(callbacks, title);
-        aChoices = new ArrayList<Choice>();
-    }
+	public BranchPage(ModelCallbacks callbacks, String title) {
+		super(callbacks, title);
+		aChoices = new ArrayList<Choice>();
+	}
 
-    @Override
-    public Page findByKey(String key) {
-        if (getKey().equals(key)) {
-            return this;
-        }
+	@Override
+	public Page findByKey(String key) {
+		if (getKey().equals(key)) {
+			return this;
+		}
 
-        for (Branch branch : mBranches) {
-            Page found = branch.childPageList.findByKey(key);
-            if (found != null) {
-                return found;
-            }
-        }
+		for (Branch branch : mBranches) {
+			Page found = branch.childPageList.findByKey(key);
+			if (found != null) {
+				return found;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public void flattenCurrentPageSequence(ArrayList<Page> destination) {
-        super.flattenCurrentPageSequence(destination);
-        for (Branch branch : mBranches) {
-            if (branch.choice.equals(mData.getString(Page.SIMPLE_DATA_KEY))) {
-                branch.childPageList.flattenCurrentPageSequence(destination);
-                break;
-            }
-        }
-    }
+	@Override
+	public void flattenCurrentPageSequence(ArrayList<Page> destination) {
+		super.flattenCurrentPageSequence(destination);
+		for (Branch branch : mBranches) {
+			if (branch.choice.equals(mData.getString(Page.SIMPLE_DATA_KEY))) {
+				branch.childPageList.flattenCurrentPageSequence(destination);
+				break;
+			}
+		}
+	}
 
-    public BranchPage addBranch(Choice choice, Page... childPages) {
-        PageList childPageList = new PageList(childPages);
-        for (Page page : childPageList) {
-            page.setParentKey(choice.getTitle());
-        }
-        mBranches.add(new Branch(choice.getTitle(), childPageList));
-        aChoices.add(choice);
-        return this;
-    }
+	public BranchPage addBranch(Choice choice, Page... childPages) {
+		PageList childPageList;
+		if (childPages != null) {
+			childPageList = new PageList(childPages);
+		} else {
+			childPageList = new PageList();
+		}
+		
+		for (Page page : childPageList) {
+			page.setParentKey(choice.getTitle());
+		}
 
-    @Override
-    public Fragment createFragment() {
-        return SingleChoiceFragment.create(getKey());
-    }
+		mBranches.add(new Branch(choice.getTitle(), childPageList));
+		aChoices.add(choice);
+		return this;
+	}
 
-    public String getOptionAt(int position) {
-        return mBranches.get(position).choice;
-    }
+	@Override
+	public Fragment createFragment() {
+		return SingleChoiceFragment.create(getKey());
+	}
 
-    public int getOptionCount() {
-        return mBranches.size();
-    }
+	public String getOptionAt(int position) {
+		return mBranches.get(position).choice;
+	}
 
-    @Override
-    public void getReviewItems(ArrayList<ReviewItem> dest) {
-        dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY), getKey()));
-    }
+	public int getOptionCount() {
+		return mBranches.size();
+	}
 
-    @Override
-    public boolean isCompleted() {
-        return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
-    }
+	@Override
+	public void getReviewItems(ArrayList<ReviewItem> dest) {
+		dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY),
+				getKey()));
+	}
 
-    @Override
-    public void notifyDataChanged() {
-        mCallbacks.onPageTreeChanged();
-        super.notifyDataChanged();
-    }
+	@Override
+	public boolean isCompleted() {
+		return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
+	}
 
-    public BranchPage setValue(String value) {
-        mData.putString(SIMPLE_DATA_KEY, value);
-        return this;
-    }
+	@Override
+	public void notifyDataChanged() {
+		mCallbacks.onPageTreeChanged();
+		super.notifyDataChanged();
+	}
 
-    private static class Branch {
-        public String choice;
-        public PageList childPageList;
+	public BranchPage setValue(String value) {
+		mData.putString(SIMPLE_DATA_KEY, value);
+		return this;
+	}
 
-        private Branch(String choice, PageList childPageList) {
-            this.choice = choice;
-            this.childPageList = childPageList;
-        }
-    }
+	private static class Branch {
+		public String choice;
+		public PageList childPageList;
+
+		private Branch(String choice, PageList childPageList) {
+			this.choice = choice;
+			this.childPageList = childPageList;
+		}
+	}
 }
