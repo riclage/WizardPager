@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WizardPageContainer" >
+
+    <TextView style="@style/WizardPageTitle" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/description"
+            android:textSize="14sp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="test dlgk glskgskgl lskglkslsgks lkslgkslkgs lkslgkskgls lkslgksl" />
+
+        <CheckBox
+            android:id="@+id/checkBoxDoNotShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description" 
+            android:text="Do not show this again"/>
+
+        <ImageView
+            android:id="@+id/imageWizard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/checkBoxDoNotShow"
+            android:src="@drawable/ic_action_wizard" />
+    </RelativeLayout>
+
+</LinearLayout>

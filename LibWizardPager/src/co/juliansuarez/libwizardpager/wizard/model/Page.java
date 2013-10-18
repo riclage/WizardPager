@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Spanned;
 
 /**
  * Represents a single page in the wizard.
@@ -41,7 +42,7 @@ public abstract class Page implements PageTreeNode {
      */
     protected Bundle mData = new Bundle();
     protected String mTitle;
-    protected String mDescription;
+    protected Spanned mDescription;
     protected boolean mRequired = false;
     protected String mParentKey;
     
@@ -52,7 +53,14 @@ public abstract class Page implements PageTreeNode {
         mTitle = title;
     }
     
-    protected Page(ModelCallbacks callbacks, String title, String description) {
+    /**
+     * Constructor providing a description (like a subtitle) that can HTML markups. 
+     * Use Html.fromHtml() to generate the description.
+     * @param callbacks
+     * @param title
+     * @param description
+     */
+    protected Page(ModelCallbacks callbacks, String title, Spanned description) {
         mCallbacks = callbacks;
         mTitle = title;
         mDescription = description;
@@ -66,7 +74,7 @@ public abstract class Page implements PageTreeNode {
         return mTitle;
     }
     
-    public String getDescription() {
+    public Spanned getDescription() {
     	return mDescription;
     }
 
