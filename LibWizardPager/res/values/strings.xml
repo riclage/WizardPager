@@ -6,6 +6,8 @@
     <string name="hint_your_email">Optional</string>
     <string name="review">Review</string>
     
+    <string name="donotshow">Do not show this again</string>
+    
     <!-- IMPORTANT: If you change these values here, REMEMBER to change them also on the Talker project -->
     <string-array name="time_recurrence">
         <item>Every minute</item>

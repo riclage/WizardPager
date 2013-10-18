@@ -46,6 +46,13 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
      */
     protected abstract PageList onNewRootPageList();
     
+    /**
+     * Needs to be declared in the model to indicate whether a IntroPage is present or not (to deal with the CheckBox mark).
+     * You should use shared settings to verify whether the IntroPage should be shown or not based on user preferences.
+     * @return
+     */
+    public abstract Boolean hasIntroPage();
+    
     protected void setLastStepButtonResource(int resource) {
     	mLastStepButtonResource = resource;
     }

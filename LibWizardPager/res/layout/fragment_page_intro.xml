@@ -12,14 +12,14 @@
             android:textSize="14sp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="test dlgk glskgskgl lskglkslsgks lkslgkslkgs lkslgkskgls lkslgksl" />
+            android:text="" />
 
         <CheckBox
             android:id="@+id/checkBoxDoNotShow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/description" 
-            android:text="Do not show this again"/>
+            android:text="@string/donotshow"/>
 
         <ImageView
             android:id="@+id/imageWizard"
