@@ -35,6 +35,7 @@
                 android:entries="@array/time_recurrence" />
 
         </LinearLayout>
+        
 
     </LinearLayout>
 

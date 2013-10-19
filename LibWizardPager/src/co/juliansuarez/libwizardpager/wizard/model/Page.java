@@ -36,6 +36,8 @@ public abstract class Page implements PageTreeNode {
 	public static final String SKIP_NEXT_PAGE = "skip";
 
     protected ModelCallbacks mCallbacks;
+    protected DatabaseCallbacks mDatabaseCallbacks;
+    
 
     /**
      * Current wizard values/selections.
@@ -50,6 +52,12 @@ public abstract class Page implements PageTreeNode {
 
     protected Page(ModelCallbacks callbacks, String title) {
         mCallbacks = callbacks;
+        mTitle = title;
+    }
+    
+    protected Page(ModelCallbacks callbacks, DatabaseCallbacks databaseCallbacks, String title) {
+        mCallbacks = callbacks;
+        mDatabaseCallbacks = databaseCallbacks;
         mTitle = title;
     }
     
@@ -125,6 +133,10 @@ public abstract class Page implements PageTreeNode {
 
     public void notifyDataChanged() {
         mCallbacks.onPageDataChanged(this);
+    }
+    
+    public void notifyTextChanged(String text, DatabaseListener listener) {
+    	mDatabaseCallbacks.updateAutoCompleteCursorAsync(text, listener);
     }
 
     public Page setRequired(boolean required) {

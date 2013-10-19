@@ -2,8 +2,11 @@ package co.juliansuarez.libwizardpager.wizard.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -14,29 +17,37 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
+import co.juliansuarez.libwizardpager.wizard.model.DatabaseListener;
 import co.juliansuarez.libwizardpager.wizard.model.Page;
+import co.juliansuarez.libwizardpager.wizard.model.ReminderPage;
 import co.juliansuarez.libwizardpager.wizard.model.TimePage;
 
-public class TimeFragment extends Fragment {
+public class ReminderFragment extends Fragment implements DatabaseListener, TextWatcher {
 	
 	protected static final String ARG_KEY = "key";
 
 	private PageFragmentCallbacks mCallbacks;
 	private String mKey;
 	private Page mPage;
+	private Boolean changingAdapter = false;
 
 	protected EditText mEditTextNumRepeat;
 	protected Spinner mSpinnerTypeRepeat;
+	
+	protected AutoCompleteTextView mReminderText;
+	protected Cursor mAutoCompleteCursor;
+	protected SimpleCursorAdapter mCursorAdapter;
 
-	public static TimeFragment create(String key) {
+	public static ReminderFragment create(String key) {
 		Bundle args = new Bundle();
 		args.putString(ARG_KEY, key);
 
-		TimeFragment f = new TimeFragment();
+		ReminderFragment f = new ReminderFragment();
 		f.setArguments(args);
 		return f;
 	}
@@ -53,11 +64,13 @@ public class TimeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_page_time,
+		View rootView = inflater.inflate(R.layout.fragment_page_reminder,
 				container, false);
 		((TextView) rootView.findViewById(android.R.id.title)).setText(mPage
 				.getTitle());
-
+		
+		mReminderText = (AutoCompleteTextView)rootView.findViewById(R.id.reminder);
+		
 		mEditTextNumRepeat = (EditText) rootView.findViewById(R.id.editTextNumRepeat);
 		mEditTextNumRepeat.setText(mPage.getData().getString(TimePage.TIME_NUM_REPEAT_DATA_KEY));
 		mEditTextNumRepeat.setFilters(new InputFilter[]{new InputFilterMinMax("1", "50")});
@@ -68,7 +81,7 @@ public class TimeFragment extends Fragment {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mSpinnerTypeRepeat.setAdapter(adapter);
 		
-		int index = adapter.getPosition(mPage.getData().getString(TimePage.TIME_TYPE_REPEAT_DATA_KEY));
+		int index = adapter.getPosition(mPage.getData().getString(ReminderPage.TIME_TYPE_REPEAT_DATA_KEY));
 		mSpinnerTypeRepeat.setSelection(index);
 		
 		return rootView;
@@ -92,10 +105,32 @@ public class TimeFragment extends Fragment {
 		mCallbacks = null;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
+		mCursorAdapter = new SimpleCursorAdapter(this.getActivity(),
+				android.R.layout.simple_dropdown_item_1line, 
+				null,
+				new String[] { "text" }, 
+				new int[] { android.R.id.text1 });
+		
+		// Set the CursorToStringConverter, to provide the labels for the
+        // choices to be displayed in the AutoCompleteTextView.
+		mCursorAdapter.setCursorToStringConverter(new CursorToStringConverter() {
+            public String convertToString(Cursor cursor) {
+                // Get the label for this row out of the "state" column
+                final int columnIndex = cursor.getColumnIndexOrThrow("text");
+                final String str = cursor.getString(columnIndex);
+                return str;
+            }
+        });
+
+		
+		mReminderText.setAdapter(mCursorAdapter);
+		mReminderText.addTextChangedListener(this);
+		
 		mEditTextNumRepeat.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -152,5 +187,34 @@ public class TimeFragment extends Fragment {
 				imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 			}
 		}
+	}
+
+	@Override
+	public void updateAutoCompleteAdapter(Cursor c) {
+		mCursorAdapter.changeCursor(c);
+		mCursorAdapter.notifyDataSetChanged();
+		changingAdapter = false;
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if (s.length() % 2 == 0 && !changingAdapter) {
+			changingAdapter = true;
+			mPage.notifyTextChanged(s.toString().toLowerCase(), ReminderFragment.this);
+		}
+		
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

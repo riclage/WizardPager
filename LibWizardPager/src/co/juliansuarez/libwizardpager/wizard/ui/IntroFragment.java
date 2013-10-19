@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
 import co.juliansuarez.libwizardpager.wizard.model.Page;

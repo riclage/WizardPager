@@ -16,11 +16,11 @@
 
 package co.juliansuarez.libwizardpager.wizard.model;
 
-import android.content.Context;
-import android.os.Bundle;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Context;
+import android.os.Bundle;
 
 /**
  * Represents a wizard model, including the pages/steps in the wizard, their dependencies, and their
@@ -28,10 +28,12 @@ import java.util.List;
  *
  * To create an actual wizard model, extend this class and implement {@link #onNewRootPageList()}.
  */
-public abstract class AbstractWizardModel implements ModelCallbacks {
+public abstract class AbstractWizardModel implements ModelCallbacks, DatabaseCallbacks {
     protected Context mContext;
 
     private List<ModelCallbacks> mListeners = new ArrayList<ModelCallbacks>();
+    private List<DatabaseCallbacks> mDatabaseListeners = new ArrayList<DatabaseCallbacks>();
+    
     private PageList mRootPageList;
     
     private int mLastStepButtonResource;
@@ -78,6 +80,17 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
             mListeners.get(i).onPageTreeChanged();
         }
     }
+    
+    @Override
+    public void updateAutoCompleteCursorAsync(String textEntered, DatabaseListener listener) {
+    	// can't use for each because of concurrent modification (review fragment
+        // can get added or removed and will register itself as a listener)
+        for (int i = 0; i < mDatabaseListeners.size(); i++) {
+            mDatabaseListeners.get(i).updateAutoCompleteCursorAsync(textEntered, listener);
+        }
+    }
+    
+    
 
     public Page findByKey(String key) {
         return mRootPageList.findByKey(key);
@@ -91,6 +104,10 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
 
     public void registerListener(ModelCallbacks listener) {
         mListeners.add(listener);
+    }
+    
+    public void registerListener(DatabaseCallbacks listener) {
+        mDatabaseListeners.add(listener);
     }
 
     public Bundle save() {
@@ -113,5 +130,9 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
 
     public void unregisterListener(ModelCallbacks listener) {
         mListeners.remove(listener);
+    }
+    
+    public void unregisterListener(DatabaseCallbacks listener) {
+        mDatabaseListeners.remove(listener);
     }
 }

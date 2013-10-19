@@ -5,19 +5,39 @@
     <string name="label_your_email">Email</string>
     <string name="hint_your_email">Optional</string>
     <string name="review">Review</string>
-    
+    <string name="label_reminder">Reminder</string>
+    <string name="hint_reminder">e.g. Bring a towel</string>
+    <string name="label_remind_in">Remind in</string>
+    <string name="label_delete_after_complete">Delete this reminder after execution</string>
     <string name="donotshow">Do not show this again</string>
-    
-    <!-- IMPORTANT: If you change these values here, REMEMBER to change them also on the Talker project -->
-    <string-array name="time_recurrence">
-        <item>Every minute</item>
-        <item>Hourly</item>
-        <item>Daily</item>
-        <item>Weekly</item>
-        <item>Monthly</item>
-        <item>Yearly</item>
+
+    <!-- IMPORTANT: If you change these values here, REMEMBER to change them also on the other projects using it -->
+    <string name="time_minute">minutes</string>
+    <string name="time_hour">hours</string>
+    <string name="time_day">days</string>
+    <string name="time_week">weeks</string>
+    <string name="time_month">months</string>
+    <string name="time_year">years</string>
+    <string name="time_every_minute">Every minute</string>
+    <string name="time_every_hour">Hourly</string>
+    <string name="time_every_day">Daily</string>
+    <string name="time_every_week">Weekly</string>
+    <string name="time_every_month">Monthly</string>
+    <string name="time_every_year">Yearly</string>
+
+    <string-array name="time_recurrence_short">
+        <item>@string/time_every_minute</item>
+        <item>@string/time_every_hour</item>
+        <item>@string/time_every_day</item>
     </string-array>
-    
+    <string-array name="time_recurrence">
+        <item>@string/time_every_minute</item>
+        <item>@string/time_every_hour</item>
+        <item>@string/time_every_day</item>
+        <item>@string/time_every_week</item>
+        <item>@string/time_every_month</item>
+        <item>@string/time_every_year</item>
+    </string-array>
     <string-array name="time_values_singular">
         <item>minute</item>
         <item>hour</item>
@@ -25,8 +45,7 @@
         <item>week</item>
         <item>month</item>
         <item>year</item>
-    </string-array>    
-    
+    </string-array>
     <string-array name="time_values_plural">
         <item>minutes</item>
         <item>hours</item>
@@ -34,8 +53,8 @@
         <item>weeks</item>
         <item>months</item>
         <item>years</item>
-    </string-array>        
-    
+    </string-array>
+
     <string name="text_repeat">Repeat</string>
     <string name="text_repeat_every">Repeat every</string>
 
