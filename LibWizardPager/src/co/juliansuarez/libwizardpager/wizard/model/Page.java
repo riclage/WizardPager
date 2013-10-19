@@ -18,6 +18,8 @@ package co.juliansuarez.libwizardpager.wizard.model;
 
 import java.util.ArrayList;
 
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Spanned;
@@ -135,8 +137,8 @@ public abstract class Page implements PageTreeNode {
         mCallbacks.onPageDataChanged(this);
     }
     
-    public void notifyTextChanged(String text, DatabaseListener listener) {
-    	mDatabaseCallbacks.updateAutoCompleteCursorAsync(text, listener);
+    public void getDatabaseFilter(DatabaseListener listener) {
+    	mDatabaseCallbacks.getFilter(listener);
     }
 
     public Page setRequired(boolean required) {

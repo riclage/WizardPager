@@ -3,6 +3,7 @@ package co.juliansuarez.libwizardpager.wizard.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -10,6 +11,7 @@ import android.support.v4.widget.SimpleCursorAdapter.CursorToStringConverter;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
 import co.juliansuarez.libwizardpager.R;
@@ -35,6 +38,7 @@ public class ReminderFragment extends Fragment implements DatabaseListener, Text
 	private String mKey;
 	private Page mPage;
 	private Boolean changingAdapter = false;
+	private AsyncTask<String, Void, Cursor> task;
 
 	protected EditText mEditTextNumRepeat;
 	protected Spinner mSpinnerTypeRepeat;
@@ -127,6 +131,7 @@ public class ReminderFragment extends Fragment implements DatabaseListener, Text
             }
         });
 
+		mPage.getDatabaseFilter(ReminderFragment.this);
 		
 		mReminderText.setAdapter(mCursorAdapter);
 		mReminderText.addTextChangedListener(this);
@@ -190,10 +195,9 @@ public class ReminderFragment extends Fragment implements DatabaseListener, Text
 	}
 
 	@Override
-	public void updateAutoCompleteAdapter(Cursor c) {
-		mCursorAdapter.changeCursor(c);
-		mCursorAdapter.notifyDataSetChanged();
-		changingAdapter = false;
+	public void setFilter(FilterQueryProvider q) {
+		mCursorAdapter.setFilterQueryProvider(q);
+
 	}
 
 	@Override
@@ -205,10 +209,7 @@ public class ReminderFragment extends Fragment implements DatabaseListener, Text
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		if (s.length() % 2 == 0 && !changingAdapter) {
-			changingAdapter = true;
-			mPage.notifyTextChanged(s.toString().toLowerCase(), ReminderFragment.this);
-		}
+		Log.d("Wizard", "ReminderFragment.onTextChanged: " + s);
 		
 	}
 

@@ -1,7 +1,7 @@
 package co.juliansuarez.libwizardpager.wizard.model;
 
-import android.database.Cursor;
+import android.widget.FilterQueryProvider;
 
 public interface DatabaseListener {
-	public void updateAutoCompleteAdapter(Cursor c);
+	public void setFilter(FilterQueryProvider q);
 }

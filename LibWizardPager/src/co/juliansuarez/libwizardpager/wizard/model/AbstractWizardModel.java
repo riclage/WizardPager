@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 /**
@@ -82,11 +84,11 @@ public abstract class AbstractWizardModel implements ModelCallbacks, DatabaseCal
     }
     
     @Override
-    public void updateAutoCompleteCursorAsync(String textEntered, DatabaseListener listener) {
+    public void getFilter(DatabaseListener listener) {
     	// can't use for each because of concurrent modification (review fragment
         // can get added or removed and will register itself as a listener)
         for (int i = 0; i < mDatabaseListeners.size(); i++) {
-            mDatabaseListeners.get(i).updateAutoCompleteCursorAsync(textEntered, listener);
+            mDatabaseListeners.get(i).getFilter(listener);
         }
     }
     
