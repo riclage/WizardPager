@@ -30,15 +30,13 @@ import co.juliansuarez.libwizardpager.wizard.model.Page;
 import co.juliansuarez.libwizardpager.wizard.model.ReminderPage;
 import co.juliansuarez.libwizardpager.wizard.model.TimePage;
 
-public class ReminderFragment extends Fragment implements DatabaseListener, TextWatcher {
+public class ReminderFragment extends Fragment implements DatabaseListener {
 	
 	protected static final String ARG_KEY = "key";
 
 	private PageFragmentCallbacks mCallbacks;
 	private String mKey;
 	private Page mPage;
-	private Boolean changingAdapter = false;
-	private AsyncTask<String, Void, Cursor> task;
 
 	protected EditText mEditTextNumRepeat;
 	protected Spinner mSpinnerTypeRepeat;
@@ -134,7 +132,6 @@ public class ReminderFragment extends Fragment implements DatabaseListener, Text
 		mPage.getDatabaseFilter(ReminderFragment.this);
 		
 		mReminderText.setAdapter(mCursorAdapter);
-		mReminderText.addTextChangedListener(this);
 		
 		mEditTextNumRepeat.addTextChangedListener(new TextWatcher() {
 
@@ -197,25 +194,7 @@ public class ReminderFragment extends Fragment implements DatabaseListener, Text
 	@Override
 	public void setFilter(FilterQueryProvider q) {
 		mCursorAdapter.setFilterQueryProvider(q);
-
-	}
-
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		Log.d("Wizard", "ReminderFragment.onTextChanged: " + s);
-		
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-		// TODO Auto-generated method stub
-		
-	}	
 }
